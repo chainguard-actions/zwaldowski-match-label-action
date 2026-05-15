@@ -1,0 +1,44 @@
+name: Test allowed input - single label match
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_EVENT_NAME: pull_request
+      GITHUB_REF: refs/pull/1/merge
+      GITHUB_HEAD_REF: feature-branch
+      GITHUB_BASE_REF: main
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Create pull_request event payload with matching label
+        run: |
+          mkdir -p /tmp/event
+          cat > /tmp/event/event.json <<'EOF'
+          {
+            "pull_request": {
+              "number": 1,
+              "labels": [
+                { "name": "bug" }
+              ]
+            }
+          }
+          EOF
+          echo "GITHUB_EVENT_PATH=/tmp/event/event.json" >> $GITHUB_ENV
+
+      - id: action
+        uses: .
+        with:
+          allowed: "bug, feature, enhancement"
+
+      - name: Assert match output equals bug
+        env:
+          ACTUAL: ${{ steps.action.outputs.match }}
+        run: |
+          echo "actual: $ACTUAL"
+          if [ "$ACTUAL" != "bug" ]; then
+            echo "FAIL: expected 'bug' but got '$ACTUAL'"
+            exit 1
+          fi
+          echo "PASS"

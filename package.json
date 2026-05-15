@@ -1,0 +1,47 @@
+{
+  "name": "match-label-action",
+  "version": "6.0.0",
+  "description": "Test a pull request for one of several labels.",
+  "main": "index.js",
+  "scripts": {
+    "lint": "xo --fix",
+    "package": "ncc build index.js -o dist --source-map --license licenses.txt",
+    "test": "xo && ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zwaldowski/match-label-action.git"
+  },
+  "keywords": [
+    "GitHub",
+    "Actions",
+    "JavaScript"
+  ],
+  "author": "GitHub",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zwaldowski/match-label-action/issues"
+  },
+  "homepage": "https://github.com/zwaldowski/match-label-action#readme",
+  "dependencies": {
+    "@actions/core": "^2.0.0",
+    "@actions/github": "^6.0.0"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.38.4",
+    "ava": "^6.4.1",
+    "xo": "^1.2.3"
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "none"
+  },
+  "type": "module",
+  "xo": {
+    "prettier": true,
+    "semicolon": false,
+    "space": true
+  }
+}
