@@ -1,4 +1,4 @@
-name: Test default_match fallback
+name: Test allowed_multiple with default_match fallback
 on:
   workflow_dispatch:
 jobs:
@@ -9,15 +9,15 @@ jobs:
       - id: action
         uses: .
         with:
-          allowed: "bug, enhancement, documentation"
-          default_match: "enhancement"
+          allowed_multiple: "bug, enhancement, documentation"
+          default_match: "bug"
       - name: Assert match output equals default_match
         env:
           ACTUAL: ${{ steps.action.outputs.match }}
         run: |
           echo "actual: $ACTUAL"
-          if [ "$ACTUAL" != "enhancement" ]; then
-            echo "FAIL: expected 'enhancement' but got '$ACTUAL'"
+          if [ "$ACTUAL" != "bug" ]; then
+            echo "FAIL: expected 'bug' but got '$ACTUAL'"
             exit 1
           fi
           echo "PASS"
